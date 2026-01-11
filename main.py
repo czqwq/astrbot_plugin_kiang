@@ -1,6 +1,3 @@
-"""
-精简版插件 - 只保留基本注册和语音发送功能
-"""
 import random
 from pathlib import Path
 
@@ -21,7 +18,7 @@ class Kiang(Star):
         self.config = config
 
         # 使用插件数据目录规范路径
-        plugin_data_path = get_astrbot_data_path() / "plugin_data" / "kiang"
+        plugin_data_path = Path(get_astrbot_data_path()) / "plugin_data" / "kiang"
         self.voice_path = Path(self.config.get("voice_path", str(plugin_data_path / "voices/")))
         self.data_store = VoiceDataStore(self.voice_path)
         self.voice = self.data_store.voice
