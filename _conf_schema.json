@@ -1,4 +1,10 @@
 {
+  "keywords": {
+    "description": "触发语音回复的关键词列表",
+    "type": "list",
+    "hint": "例如：['语音', '说', '播放']",
+    "default": ["语音"]
+  },
   "voice_path": {
     "description": "语音文件路径",
     "type": "string",

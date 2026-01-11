@@ -1,3 +1,6 @@
+"""
+精简版插件 - 只保留关键词触发语音发送功能
+"""
 import random
 from pathlib import Path
 
@@ -5,7 +8,7 @@ from astrbot.api import logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
 from astrbot.core.message.components import Plain, Record
-from astrbot.api import AstrBotConfig
+from astrbot.core import AstrBotConfig
 from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 
 from .datastore import VoiceDataStore
@@ -13,18 +16,29 @@ from .datastore import VoiceDataStore
 
 @register("kiang", "czqwq", "语音回复插件", "1.0.1")
 class Kiang(Star):
-    def __init__(self, context: Context, config: AstrBotConfig):
+    def __init__(self, context: Context, config: AstrBotConfig = None):
         super().__init__(context)
-        self.config = config
+        self.config = config or {}
 
         # 使用插件数据目录规范路径
         plugin_data_path = Path(get_astrbot_data_path()) / "plugin_data" / "kiang"
-        self.voice_path = Path(self.config.get("voice_path", str(plugin_data_path / "voices")))
+        
+        # 处理 config 为字典的情况
+        if hasattr(self.config, 'get'):
+            voice_path_config = self.config.get("voice_path", str(plugin_data_path / "voices/"))
+            self.keywords = self.config.get("keywords", ["语音"])
+        else:
+            # 如果 config 不是字典形式，使用默认值
+            voice_path_config = str(plugin_data_path / "voices/")
+            self.keywords = ["语音"]
+            
+        self.voice_path = Path(voice_path_config)
         self.data_store = VoiceDataStore(self.voice_path)
         self.voice = self.data_store.voice
 
         logger.info(f"voice_path: {self.voice_path}")
         logger.info(f"loaded voice items: {self.voice.items}")
+        logger.info(f"keywords: {self.keywords}")
 
     @filter.event_message_type(filter.EventMessageType.ALL)
     async def on_keyword_detect(self, event: AstrMessageEvent):
@@ -32,8 +46,8 @@ class Kiang(Star):
         if not message_text:
             return
 
-        # 简单的关键词检测，如果有"语音"关键词就播放随机语音
-        if "语音" in message_text:
+        # 检查是否包含关键词
+        if self._match_keywords(message_text, self.keywords):
             # 从语音数据存储中随机选择一个语音
             if self.voice.items:
                 selected_voice = random.choice(self.voice.items)
@@ -51,10 +65,9 @@ class Kiang(Star):
                 
                 # 检查语音文件是否存在
                 if found_file and voice_file_path:
-                    # 创建包含语音文件的消息链
+                    # 创建包含语音文件的消息链，只发送语音，不发送文本
                     chain = [
-                        Record.fromFileSystem(str(voice_file_path)),
-                        Plain(f"播放语音: {selected_voice}")
+                        Record.fromFileSystem(str(voice_file_path))
                     ]
                 else:
                     # 如果语音文件不存在，则只发送文本
@@ -64,6 +77,13 @@ class Kiang(Star):
                 
                 yield event.chain_result(chain)
                 event.stop_event()
+
+    @staticmethod
+    def _match_keywords(text: str, keywords) -> bool:
+        for keyword in keywords:
+            if keyword in text:
+                return True
+        return False
 
     async def terminate(self):
         logger.info("[kiang] plugin terminated")
