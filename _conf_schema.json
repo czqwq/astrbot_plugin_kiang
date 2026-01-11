@@ -1,0 +1,8 @@
+{
+  "voice_path": {
+    "description": "语音文件路径",
+    "type": "string",
+    "hint": "例如：'data/voices/'",
+    "default": "data/voices/"
+  }
+}
