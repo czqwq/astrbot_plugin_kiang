@@ -7,12 +7,13 @@ from pathlib import Path
 from astrbot.api import logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
-from astrbot.core.message.components import BaseMessageComponent, Plain, Record
-from data.plugins.astrbot_plugin_kiang.datastore import VoiceDataStore
 from astrbot.core import AstrBotConfig
+from astrbot.core.message.components import Plain, Record
+
+from .datastore import VoiceDataStore
 
 
-@register("kiang", "czqwq", "语音回复插件", "1.0.0")
+@register("kiang", "XSana", "语音回复插件", "1.2.0")
 class Kiang(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
