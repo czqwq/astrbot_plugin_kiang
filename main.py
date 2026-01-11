@@ -30,7 +30,7 @@ class Kiang(Star):
         logger.info(f"loaded voice items: {self.voice.items}")
 
     @filter.event_message_type(filter.EventMessageType.ALL)
-    async def on_all_message(self, event: AstrMessageEvent):
+    async def on_keyword_detect(self, event: AstrMessageEvent):
         message_text = event.message_str or ""
         if not message_text:
             return
