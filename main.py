@@ -8,7 +8,7 @@ from astrbot.api import logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
 from astrbot.core.message.components import BaseMessageComponent, Plain, Record
-from datastore import VoiceDataStore
+from data.plugins.astrbot_plugin_kiang.datastore import VoiceDataStore
 from astrbot.core import AstrBotConfig
 
 
