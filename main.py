@@ -1,6 +1,3 @@
-"""
-精简版插件 - 只保留基本注册和语音发送功能
-"""
 import random
 from pathlib import Path
 
@@ -10,10 +7,10 @@ from astrbot.api.star import Context, Star, register
 from astrbot.core import AstrBotConfig
 from astrbot.core.message.components import Plain, Record
 
-from .datastore import VoiceDataStore
+from data.plugins.astrbot_plugin_kiang.datastore import VoiceCategory , VoiceDataStore
 
 
-@register("kiang", "XSana", "语音回复插件", "1.2.0")
+@register("kiang", "XSana", "语音回复插件", "1.0.0")
 class Kiang(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -21,7 +18,7 @@ class Kiang(Star):
 
         # 初始化语音数据存储
         self.voice_path = Path(self.config.get("voice_path", "data/voices/"))
-        self.data_store = VoiceDataStore(self.voice_path)
+        self.data_store = Kiang(self.voice_path)
         self.voice = self.data_store.voice
 
         logger.info(f"voice_path: {self.voice_path}")

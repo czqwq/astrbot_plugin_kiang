@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-import os
+
 from typing import List
 
 from astrbot.api import logger
