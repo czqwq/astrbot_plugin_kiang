@@ -1,6 +1,6 @@
 name: astrbot_plugin_kiang
 display_name: 语音回复插件
 desc: 根据关键词随机返回语音文件
-version: v1.0.0
+version: v1.0.1
 author: czqwq
 repo: https://github.com/czqwq/astrbot_plugin_kiang

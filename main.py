@@ -7,7 +7,7 @@ from astrbot.api.star import Context, Star, register
 from astrbot.core import AstrBotConfig
 from astrbot.core.message.components import Plain, Record
 
-@register("kiang", "XSana", "语音回复插件", "1.0.0")
+@register("kiang", "XSana", "语音回复插件", "1.0.1")
 class Kiang(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
