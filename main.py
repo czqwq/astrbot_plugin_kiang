@@ -5,7 +5,7 @@ from astrbot.api import logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
 from astrbot.core.message.components import Plain, Record
-from astrbot.core import AstrBotConfig
+from astrbot.api import AstrBotConfig
 from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 
 from .datastore import VoiceDataStore
