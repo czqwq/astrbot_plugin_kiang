@@ -7,9 +7,6 @@ from astrbot.api.star import Context, Star, register
 from astrbot.core import AstrBotConfig
 from astrbot.core.message.components import Plain, Record
 
-from data.plugins.astrbot_plugin_kiang.datastore import VoiceCategory , VoiceDataStore
-
-
 @register("kiang", "XSana", "语音回复插件", "1.0.0")
 class Kiang(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
