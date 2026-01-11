@@ -1,10 +1,12 @@
+"""
+精简版插件 - 只保留基本注册和语音发送功能
+"""
 import random
 from pathlib import Path
 
 from astrbot.api import logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
-from astrbot.core import AstrBotConfig
 from astrbot.core.message.components import Plain, Record
 
 from .datastore import VoiceDataStore
@@ -12,9 +14,9 @@ from .datastore import VoiceDataStore
 
 @register("kiang", "czqwq", "语音回复插件", "1.0.1")
 class Kiang(Star):
-    def __init__(self, context: Context, config: AstrBotConfig):
-        super().__init__(context)
-        self.config = config
+    def __init__(self, context: Context, config: dict = None):
+        super().__init__(context, config)
+        self.config = config or {}
 
         # 初始化语音数据存储
         self.voice_path = Path(self.config.get("voice_path", "data/voices/"))
@@ -25,7 +27,7 @@ class Kiang(Star):
         logger.info(f"loaded voice items: {self.voice.items}")
 
     @filter.event_message_type(filter.EventMessageType.ALL)
-    async def on_message(self, event: AstrMessageEvent):
+    async def on_all_message(self, event: AstrMessageEvent):
         message_text = event.message_str or ""
         if not message_text:
             return
