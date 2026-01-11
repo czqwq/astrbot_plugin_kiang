@@ -16,12 +16,23 @@ from .datastore import VoiceDataStore
 
 @register("kiang", "czqwq", "语音回复插件", "1.0.1")
 class Kiang(Star):
-    def __init__(self, context: Context, config: AstrBotConfig = None):
+    def __init__(self, *args, **kwargs): 
+        # 适配框架的参数传递方式
+        if len(args) >= 2:
+            # 假设有 context 和 config 参数
+            context = args[0]
+            config = args[1] if len(args) > 1 else (kwargs.get('config') if 'kwargs' in kwargs else None)
+        else:
+            # 只有 context 参数
+            context = args[0] if args else kwargs.get('context')
+            config = kwargs.get('config')
+            
         super().__init__(context)
         self.config = config or {}
 
         # 使用插件数据目录规范路径
-        plugin_data_path = Path(get_astrbot_data_path()) / "plugin_data" / "kiang"
+        base_path = get_astrbot_data_path()
+        plugin_data_path = Path(str(base_path)) / "plugin_data" / "kiang"
         
         # 处理 config 为字典的情况
         if hasattr(self.config, 'get'):
