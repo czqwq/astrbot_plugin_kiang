@@ -9,6 +9,7 @@ from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
 from astrbot.core.message.components import Plain, Record
 from astrbot.core import AstrBotConfig
+from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 
 from .datastore import VoiceDataStore
 
@@ -19,8 +20,9 @@ class Kiang(Star):
         super().__init__(context)
         self.config = config
 
-        # 初始化语音数据存储
-        self.voice_path = Path(self.config.get("voice_path", "data/voices/"))
+        # 使用插件数据目录规范路径
+        plugin_data_path = get_astrbot_data_path() / "plugin_data" / "kiang"
+        self.voice_path = Path(self.config.get("voice_path", str(plugin_data_path / "voices/")))
         self.data_store = VoiceDataStore(self.voice_path)
         self.voice = self.data_store.voice
 
