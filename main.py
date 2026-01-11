@@ -16,15 +16,19 @@ from .datastore import VoiceDataStore
 
 @register("kiang", "czqwq", "语音回复插件", "1.0.1")
 class Kiang(Star):
-    def __init__(self, *args, **kwargs): 
-        # 适配框架的参数传递方式
-        if len(args) >= 2:
-            # 假设有 context 和 config 参数
+    def __init__(self, *args, **kwargs):
+        # 检查参数数量以适配框架的参数传递方式
+        if len(args) == 1:
+            # 只传递了 context 参数
             context = args[0]
-            config = args[1] if len(args) > 1 else (kwargs.get('config') if 'kwargs' in kwargs else None)
+            config = None
+        elif len(args) == 2:
+            # 传递了 context 和 config 参数
+            context = args[0]
+            config = args[1]
         else:
-            # 只有 context 参数
-            context = args[0] if args else kwargs.get('context')
+            # 参数数量不符合预期，尝试从 kwargs 获取
+            context = kwargs.get('context')
             config = kwargs.get('config')
             
         super().__init__(context)
@@ -40,7 +44,7 @@ class Kiang(Star):
             self.keywords = self.config.get("keywords", ["语音"])
         else:
             # 如果 config 不是字典形式，使用默认值
-            voice_path_config = str(plugin_data_path / "voices/")
+            voice_path_config = str(Path(str(base_path)) / "plugin_data" / "kiang" / "voices/")
             self.keywords = ["语音"]
             
         self.voice_path = Path(voice_path_config)
