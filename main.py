@@ -19,7 +19,7 @@ class Kiang(Star):
 
         # 使用插件数据目录规范路径
         plugin_data_path = Path(get_astrbot_data_path()) / "plugin_data" / "kiang"
-        self.voice_path = Path(self.config.get("voice_path", str(plugin_data_path / "voices/")))
+        self.voice_path = Path(self.config.get("voice_path", str(plugin_data_path / "voices")))
         self.data_store = VoiceDataStore(self.voice_path)
         self.voice = self.data_store.voice
 
