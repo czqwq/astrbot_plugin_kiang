@@ -7,7 +7,10 @@ from astrbot.api.star import Context, Star, register
 from astrbot.core import AstrBotConfig
 from astrbot.core.message.components import Plain, Record
 
-@register("kiang", "XSana", "语音回复插件", "1.0.1")
+from .datastore import VoiceDataStore
+
+
+@register("kiang", "czqwq", "语音回复插件", "1.0.1")
 class Kiang(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -15,7 +18,7 @@ class Kiang(Star):
 
         # 初始化语音数据存储
         self.voice_path = Path(self.config.get("voice_path", "data/voices/"))
-        self.data_store = Kiang(self.voice_path)
+        self.data_store = VoiceDataStore(self.voice_path)
         self.voice = self.data_store.voice
 
         logger.info(f"voice_path: {self.voice_path}")
