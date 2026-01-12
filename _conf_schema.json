@@ -9,6 +9,6 @@
     "description": "语音文件位置",
     "type": "string",
     "default": [""],
-    "hint": "设置发送语音文件的位置"
+    "hint": "设置发送语音文件的位置,默认使用插件目录自带的Kiang.wav"
   }
 }
