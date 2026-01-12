@@ -1,14 +1,14 @@
 {
-  "keywords": {
-    "description": "触发语音回复的关键词列表",
+  "commands": {
+    "description": "触发命令",
     "type": "list",
-    "hint": "例如：['语音', '说', '播放']",
-    "default": ["语音"]
+    "default": ["kiang"],
+    "hint": "设置触发语音的命令,一行一个,回车确认"
   },
-  "voice_path": {
-    "description": "语音文件路径",
+    "audio": {
+    "description": "语音文件位置",
     "type": "string",
-    "hint": "例如：'data/voices/'",
-    "default": "data/voices/"
+    "default": [""],
+    "hint": "设置发送语音文件的位置"
   }
 }
