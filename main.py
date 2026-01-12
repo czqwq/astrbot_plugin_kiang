@@ -5,16 +5,18 @@ from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, StarTools
 from astrbot.api.star import register
 from astrbot.core.config import AstrBotConfig
-
+from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 
 @register("Kiang", "czqwq", "Kiang!", "1.0.0")
 class Kiang(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.config = config
+        self.name = "Kiang"
         self.commands = self.config.get("commands", "kiang")
         self.base_dir: Path = StarTools.get_data_dir("astrbot_kiang")
-        self.audio = self.config.get("audio", self.base_dir / "audio")
+        self.plugin_data_dir = Path(get_astrbot_data_path()) / "plugins" / self.name
+        self.audio = self.config.get("audio", self.plugin_data_dir / "Kiang.wav")
 
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
